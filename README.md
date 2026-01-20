@@ -128,4 +128,5 @@ brew install fzf
 brew install jesseduffield/lazydocker/lazydocker
 brew install lazygit
 brew install television
+brew install --cask colemak-dh
 ```
