@@ -1,0 +1,31 @@
+[
+  {
+    "label": "file_finder",
+    "command": "zed \"$(tv files)\"",
+    "hide": "always",
+    "allow_concurrent_runs": true,
+    "use_new_terminal": true,
+    "shell": {
+      "with_arguments": {
+        "program": "zsh",
+        "args": ["--no-rcs"],
+      },
+    },
+  },
+
+  {
+    "label": "live_grep",
+    // "command": "zed \"$(tv text)\"",
+    "command": "zed \"$(tv --input '${ZED_SELECTED_TEXT:-}' --exact text)\"",
+
+    "hide": "always",
+    "allow_concurrent_runs": true,
+    "use_new_terminal": true,
+    "shell": {
+      "with_arguments": {
+        "program": "zsh",
+        "args": ["--no-rcs"],
+      },
+    },
+  },
+]

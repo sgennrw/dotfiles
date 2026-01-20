@@ -1,0 +1,89 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "cmd-n": "workspace::NewTerminal",
+      "ctrl-`": "workspace::NewCenterTerminal",
+      // "shift shift": "file_finder::Toggle",
+      // "\\": "workspace::ToggleRightDock",
+      "cmd-k h": ["workspace::ActivatePaneInDirection", "Left"],
+      "cmd-k j": ["workspace::ActivatePaneInDirection", "Down"],
+      "cmd-k k": ["workspace::ActivatePaneInDirection", "Up"],
+      "cmd-k l": ["workspace::ActivatePaneInDirection", "Right"],
+
+      "cmd-k H": ["workspace::SwapPaneInDirection", "Left"],
+      "cmd-k J": ["workspace::SwapPaneInDirection", "Down"],
+      "cmd-k L": ["workspace::SwapPaneInDirection", "Right"],
+      "cmd-k K": ["workspace::SwapPaneInDirection", "Up"],
+    },
+  },
+  {
+    "context": "Editor",
+    // "bindings": { "ctrl-w": "pane::CloseActiveItem" },
+    "bindings": {},
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      // "j k": "vim::NormalBefore"
+    },
+  },
+  {
+    "context": "Editor && vim_mode == normal && vim_operator == none && !VimWaiting",
+    "bindings": {
+      "space w": "workspace::Save",
+      "\\": "workspace::ToggleRightDock",
+      "L": "pane::ActivateNextItem",
+      "H": "pane::ActivatePreviousItem",
+    },
+  },
+  {
+    "context": "vim_operator == a || vim_operator == i || vim_operator == cs",
+    "bindings": {
+      // Traditional Vim behavior
+      "q": "vim::AnyQuotes",
+      "b": "vim::AnyBrackets",
+
+      // mini.ai plugin behavior
+      "Q": "vim::MiniQuotes",
+      "B": "vim::MiniBrackets",
+    },
+  },
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      "/": ["vim::Search", { "regex": false }],
+    },
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "N": "project_panel::NewDirectory",
+      "n": "project_panel::NewFile",
+      "r": "project_panel::Rename",
+      "x": "project_panel::Cut",
+      "y": "project_panel::Copy",
+      "p": "project_panel::Paste",
+      "d": "project_panel::Delete",
+    },
+  },
+  {
+    "context": "Dock",
+    "bindings": {
+      "ctrl-w h": "workspace::ActivatePaneLeft",
+      "ctrl-w j": "workspace::ActivatePaneDown",
+      "ctrl-w k": "workspace::ActivatePaneUp",
+      "ctrl-w l": "workspace::ActivatePaneRight",
+      "L": "pane::ActivateNextItem",
+      "H": "pane::ActivatePreviousItem",
+      // ...  wother keybindings
+    },
+  },
+]

@@ -1,0 +1,212 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      // "cmd-n": "workspace::NewTerminal",
+      "ctrl-`": "workspace::NewCenterTerminal",
+    },
+  },
+  {
+    "context": "Editor || Terminal",
+    // "bindings": { "ctrl-w": "pane::CloseActiveItem" },
+    "bindings": {
+      "ctrl-w shift-h": [
+        "workspace::MoveItemToPaneInDirection",
+        { "direction": "left" },
+      ],
+      "ctrl-w shift-j": [
+        "workspace::MoveItemToPaneInDirection",
+        { "direction": "down" },
+      ],
+      "ctrl-w shift-k": [
+        "workspace::MoveItemToPaneInDirection",
+        { "direction": "up" },
+      ],
+      "ctrl-w shift-l": [
+        "workspace::MoveItemToPaneInDirection",
+        { "direction": "right" },
+      ],
+      "ctrl-w +": "vim::ResizePaneUp",
+      "ctrl-w -": "vim::ResizePaneDown",
+      "ctrl-w <": "vim::ResizePaneLeft",
+      "ctrl-w >": "vim::ResizePaneRight",
+      "ctrl-w =": "vim::ResetPaneSizes",
+    },
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      // "j k": "vim::NormalBefore"
+    },
+  },
+  {
+    "context": "Editor && vim_mode == normal && vim_operator == none && !VimWaiting",
+    "bindings": {
+      "space w": "workspace::Save",
+      "\\": "workspace::ToggleRightDock",
+      "ctrl-k l": "pane::ActivateNextItem",
+      "ctrl-k h": "pane::ActivatePreviousItem",
+    },
+  },
+  {
+    "context": "vim_operator == a || vim_operator == i || vim_operator == cs",
+    "bindings": {
+      // Traditional Vim behavior
+      "q": "vim::AnyQuotes",
+      "b": "vim::AnyBrackets",
+
+      // mini.ai plugin behavior
+      "Q": "vim::MiniQuotes",
+      "B": "vim::MiniBrackets",
+    },
+  },
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      "shift-s": "vim::PushAddSurrounds",
+    },
+  },
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      "/": ["vim::Search", { "regex": false }],
+    },
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "\\": "workspace::ToggleRightDock",
+      "N": "project_panel::NewDirectory",
+      "n": "project_panel::NewFile",
+      "r": "project_panel::Rename",
+      "x": "project_panel::Cut",
+      "y": "project_panel::Copy",
+      "p": "project_panel::Paste",
+      "d": "project_panel::Delete",
+    },
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-k l": "pane::ActivateNextItem",
+      "ctrl-k h": "pane::ActivatePreviousItem",
+    },
+  },
+  {
+    "context": "Dock || Terminal",
+    "bindings": {
+      "ctrl-w h": "workspace::ActivatePaneLeft",
+      "ctrl-w j": "workspace::ActivatePaneDown",
+      "ctrl-w k": "workspace::ActivatePaneUp",
+      "ctrl-w l": "workspace::ActivatePaneRight",
+      // ...  other keybindings
+    },
+  },
+  {
+    "context": "Editor && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu",
+    "bindings": {
+      // put key-bindings here if you want them to work in normal & visual mode
+      // Git
+      "space g h d": "editor::ToggleSelectedDiffHunks",
+      "space g s": "git_panel::ToggleFocus",
+
+      // Toggle inlay hints
+      "space t i": "editor::ToggleInlayHints",
+
+      // Toggle soft wrap
+      "space u w": "editor::ToggleSoftWrap",
+
+      // NOTE: Toggle Zen mode, not fully working yet
+      "space c z": "workspace::ToggleCenteredLayout",
+
+      // Open markdown preview
+      "space m p": "markdown::OpenPreview",
+      "space m P": "markdown::OpenPreviewToTheSide",
+
+      // Open recent project
+      "space f p": "projects::OpenRecent",
+      // Search word under cursor
+      "space s w": "pane::DeploySearch",
+
+      // Chat with AI
+      "space a c": "agent::ToggleFocus",
+      // Go to file with `gf`
+      "g f": "editor::OpenExcerpts",
+    },
+  },
+  {
+    "context": "Editor && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu",
+    "bindings": {
+      // Symbol search
+      "s s": "outline::Toggle",
+      "s S": "project_symbols::Toggle",
+      // Diagnostic
+      "space x x": "diagnostics::Deploy",
+
+      // +Git
+      // Git prev/next hunk
+      "] h": "editor::GoToHunk",
+      "[ h": "editor::GoToPreviousHunk",
+
+      // TODO: git diff is not ready yet, refer https://github.com/zed-industries/zed/issues/8665#issuecomment-2194000497
+
+      // + Buffers
+      // File finder
+      "space space": [
+        "task::Spawn",
+        { "task_name": "file_finder", "reveal_target": "center" },
+      ],
+      "space g": [
+        "task::Spawn",
+        { "task_name": "live_grep", "reveal_target": "center" },
+      ],
+      // Project search
+      "space /": "pane::DeploySearch",
+      // TODO: Open other files
+      // Show project panel with current file
+      "space e": "pane::RevealInProjectPanel",
+    },
+  },
+  // Empty pane, set of keybindings that are available when there is no active editor
+  {
+    "context": "EmptyPane || SharedScreen",
+    "bindings": {
+      // Open file finder
+      "space space": [
+        "task::Spawn",
+        { "task_name": "file_finder", "reveal_target": "center" },
+      ],
+      "space g": [
+        "task::Spawn",
+        { "task_name": "live_grep", "reveal_target": "center" },
+      ],
+      // Open recent project
+      "space f p": "projects::OpenRecent",
+      "\\": "workspace::ToggleRightDock",
+    },
+  },
+  // Comment code
+  {
+    "context": "Editor && vim_mode == visual && !VimWaiting && !menu",
+    "bindings": {
+      // visual, visual line & visual block modes
+      "g c": "editor::ToggleComments",
+    },
+  },
+  {
+    "context": "VimControl && !menu ",
+    "bindings": {
+      // "w": "vim::NextSubwordStart",
+      // "b": "vim::PreviousSubwordStart",
+      // "e": "vim::NextSubwordEnd",
+      // "g e": "vim::PreviousSubwordEnd",
+    },
+  },
+]

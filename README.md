@@ -120,4 +120,12 @@ brew install bat
 brew install git-delta
 brew install --cask raycast
 brew install --cask obsidian
+brew install --cask zed
+brew install --cask karabiner-elements
+brew install --cask dbeaver-community
+brew install borders
+brew install fzf
+brew install jesseduffield/lazydocker/lazydocker
+brew install lazygit
+brew install television
 ```
