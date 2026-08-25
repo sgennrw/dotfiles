@@ -53,3 +53,11 @@ Smoke-test that the install script runs cleanly (requires Docker):
 ```zsh
 ./test.sh
 ```
+
+## Updating Superpowers
+
+Superpowers is a git repo and is not touched by `sync.sh`. Update it manually:
+
+```zsh
+git -C ~/.agents/skills/superpowers pull
+```

@@ -6,7 +6,7 @@ Dotfiles repo for setting up a new macBook. Single entrypoint `install.sh` autom
 ## Repo Structure
 ```
 install.sh                  # entrypoint: sources all scripts in order
-sync.sh                     # copy live ~/.config/* back into repo
+sync.sh                     # copy live ~/.config/* and ~/.agents/skills/ back into repo
 test.sh                     # Docker smoke-test (Ubuntu 22.04)
 Dockerfile                  # smoke-test image with stubbed brew/git/ohmyzsh
 zsh/
@@ -24,6 +24,11 @@ scripts/
   shell.sh                  # ohmyzsh, plugins, file copies
   neovim.sh                 # amix/vimrc + nvim init bridge
   docker.sh                 # ~/.docker/config.json for colima
+  ssh.sh                    # generate per-identity ed25519 SSH keys + ~/.ssh/config
+  agents.sh                 # restore skills from repo; clone superpowers
+agents/
+  .skill-lock.json          # tracks installed skills
+  skills/                   # non-git skills (find-skills, tdd, etc.) — auto-synced
 iterm2/
   iterm2-profile.json       # imported manually (see README)
 ```
@@ -38,6 +43,9 @@ iterm2/
   - `useconfigonly = true` blocks commits outside these dirs without explicit identity
 - `neovim.sh` idempotency guard checks for `runtimepath` (not `vim_runtime`) — matches actual written content
 - `test.sh` uses `docker cp /root` (not `/root/.`) to preserve `.config/` path structure when extracting for inspection
+- SSH keys: `~/.ssh/id_ed25519_labs` and `~/.ssh/id_ed25519_workspaces`; `~/.ssh/config` uses `Host github.com-labs` / `Host github.com-workspaces`
+- `superpowers` is a git repo at `~/.agents/skills/superpowers` — NOT copied by sync; updated via `git pull`
+- All other skills in `~/.agents/skills/` are plain directories — synced by `sync.sh` and restored by `agents.sh`; no names hardcoded (loop detects git repos by presence of `.git/`)
 
 ## Tools Installed (brew.sh)
 Casks: iterm2, raycast, obsidian, zed, karabiner-elements, dbeaver-community, colemak-dh
@@ -64,6 +72,7 @@ Also: docker, docker-compose, colima
 git diff           # review
 git add -A && git commit -m "chore: sync dotfiles"
 ```
+Syncs: `~/.zshrc`, `~/.gitconfig`, `~/.config/{karabiner,lazygit,nvim,zed}`, `~/.agents/.skill-lock.json`, all non-git skill dirs.
 
 ## Smoke-Test
 ```zsh
