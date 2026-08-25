@@ -102,10 +102,15 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-source $HOME/scripts/workspace.sh
-source $HOME/scripts/util.sh
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
+
+# --- Navigation aliases ---
+# go to ~/Documents/labs/<name>
+alias lb='function _lb() { cd "$HOME/Documents/labs/$1" || return; }; _lb'
+
+# go to ~/Documents/workspaces/<name>
+alias ws='function _ws() { cd "$HOME/Documents/workspaces/$1" || return; }; _ws'
