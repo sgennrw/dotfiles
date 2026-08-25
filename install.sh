@@ -7,6 +7,7 @@ source "$DOTFILES_DIR/scripts/brew.sh"
 source "$DOTFILES_DIR/scripts/shell.sh"
 source "$DOTFILES_DIR/scripts/neovim.sh"
 source "$DOTFILES_DIR/scripts/docker.sh"
+source "$DOTFILES_DIR/scripts/ssh.sh"
 
 printf "\n\033[1m=== SETUP COMPLETE ===\033[0m\n"
 printf "Restart your terminal for all changes to take effect.\n"
