@@ -1,8 +1,12 @@
 # This is Git's per-user configuration file.
 [user]
-	name = sgennrw
-	email = nt.salisa@gmail.com
 	useconfigonly = true
+
+[includeIf "gitdir:~/Documents/labs/"]
+	path = ~/.config/labs.gitconfig
+
+[includeIf "gitdir:~/Documents/workspaces/"]
+	path = ~/.config/workspaces.gitconfig
 [alias]
 	l = log --pretty=custom
 	lg = log --graph --pretty=custom
