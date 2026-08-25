@@ -38,7 +38,7 @@ for skill_dir in "$HOME/.agents/skills"/*/; do
     printf "  [skip] ~/.agents/skills/%s (git repo)\n" "$skill_name"
     continue
   fi
-  cp -rf "$skill_dir" "$DOTFILES_DIR/agents/skills/"
+  cp -rf "${skill_dir%/}" "$DOTFILES_DIR/agents/skills/"
   printf "  [sync] ~/.agents/skills/%s\n" "$skill_name"
 done
 

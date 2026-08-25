@@ -9,7 +9,7 @@ if [ -d "$DOTFILES_DIR/agents/skills" ]; then
   for skill_dir in "$DOTFILES_DIR/agents/skills"/*/; do
     [ -d "$skill_dir" ] || continue
     skill_name="$(basename "$skill_dir")"
-    cp -rf "$skill_dir" "$HOME/.agents/skills/"
+    cp -rf "${skill_dir%/}" "$HOME/.agents/skills/"
     printf "  [install] ~/.agents/skills/%s\n" "$skill_name"
   done
 fi
