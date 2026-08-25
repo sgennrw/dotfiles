@@ -1,9 +1,15 @@
 # Dotfiles — Agent Context
 
 ## Purpose
+
 Dotfiles repo for setting up a new macBook. Single entrypoint `install.sh` automates everything; manual GUI steps documented in README.
 
+## Agent Safety
+
+- `sync.sh` is a manual workflow: the user must review `git diff` before deciding whether to commit.
+
 ## Repo Structure
+
 ```
 install.sh                  # entrypoint: sources all scripts in order
 sync.sh                     # copy live ~/.config/* and ~/.agents/skills/ back into repo
@@ -34,6 +40,7 @@ iterm2/
 ```
 
 ## Key Decisions
+
 - `Scripts/` directory removed — `util.sh` was unused; `lb`/`ws` inlined as aliases in `.zshrc`
 - VS Code removed from toolset
 - `.zshrc` lives at `zsh/.zshrc` (mirrors macOS `~/.zshrc`)
@@ -48,12 +55,14 @@ iterm2/
 - All other skills in `~/.agents/skills/` are plain directories — synced by `sync.sh` and restored by `agents.sh`; no names hardcoded (loop detects git repos by presence of `.git/`)
 
 ## Tools Installed (brew.sh)
+
 Casks: iterm2, raycast, obsidian, zed, karabiner-elements, dbeaver-community, colemak-dh
 Formulae: neovim, node, nvm, bat, git-delta, fzf, lazygit
 Taps: jesseduffield/lazydocker/lazydocker
 Also: docker, docker-compose, colima
 
 ## .zshrc Sections (in order)
+
 1. oh-my-zsh (theme: avit, plugins: git, zsh-syntax-highlighting, zsh-autosuggestions, docker)
 2. nvm
 3. n (N_PREFIX=$HOME/.n)
@@ -67,18 +76,23 @@ Also: docker, docker-compose, colima
 11. docker-compose aliases: dco dcb dce dcps dcrestart dcrm dcr dcstop dcu dcd dcl dclf
 
 ## Sync Workflow
+
 ```zsh
 ./sync.sh          # copies live files into repo, shows git diff
 git diff           # review
 git add -A && git commit -m "chore: sync dotfiles"
 ```
+
 Syncs: `~/.zshrc`, `~/.gitconfig`, `~/.config/{karabiner,lazygit,nvim,zed}`, `~/.agents/.skill-lock.json`, all non-git skill dirs.
 
 ## Smoke-Test
+
 ```zsh
 ./test.sh
 ```
+
 Checks: .zshrc copied, lb/ws aliases present, .gitconfig copied, nvim init.vim has runtimepath bridge, docker config.json has cliPluginsExtraDirs.
 
 ## Manual Steps (after install.sh)
+
 iTerm2 only — see README.md ## iTerm2 Manual Setup

@@ -5,6 +5,22 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 printf "\033[1m=== SYNCING DOTFILES ===\033[0m\n\n"
 
+if [ ! -t 0 ] || [ ! -t 1 ]; then
+  printf "[ERROR] sync.sh must be run manually from an interactive terminal.\n" >&2
+  exit 1
+fi
+
+read -r -p "Type sync to copy live dotfiles into this repository: " confirmation
+if [ "$confirmation" != "sync" ]; then
+  printf "[ABORTED] No files were copied.\n"
+  exit 1
+fi
+
+if grep -Eq '^[[:space:]]*(export[[:space:]]+)?[[:upper:]_][[:upper:][:digit:]_]*(TOKEN|API_KEY|SECRET|PASSWORD)[[:upper:][:digit:]_]*=' "$HOME/.zshrc"; then
+  printf "[ERROR] ~/.zshrc contains a credential assignment; move it to local secret management before syncing.\n" >&2
+  exit 1
+fi
+
 # --- .zshrc ---
 cp -f "$HOME/.zshrc" "$DOTFILES_DIR/zsh/.zshrc"
 printf "  [sync] ~/.zshrc\n"

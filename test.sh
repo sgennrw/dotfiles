@@ -55,6 +55,18 @@ check_contains() {
   fi
 }
 
+check_command_fails() {
+  local description="$1"
+  shift
+
+  if "$@"; then
+    printf "  [FAIL] %s — command unexpectedly succeeded\n" "$description"
+    FAILURES=$((FAILURES + 1))
+  else
+    printf "  [pass] %s\n" "$description"
+  fi
+}
+
 check_file     ".zshrc"                ".zshrc copied to ~/"
 check_contains ".zshrc"    "alias lb"  ".zshrc contains lb alias"
 check_contains ".zshrc"    "alias ws"  ".zshrc contains ws alias"
@@ -65,6 +77,10 @@ check_contains ".config/nvim/init.vim" "runtimepath" \
 check_file     ".docker/config.json"   "docker config.json written"
 check_contains ".docker/config.json"   "cliPluginsExtraDirs" \
   "docker config.json has cliPluginsExtraDirs"
+check_command_fails "sync.sh rejects non-interactive execution" \
+  docker run --rm "$IMAGE" bash -c 'mkdir -p /root/.agents/skills/example; cp /dotfiles/zsh/.zshrc /root/.zshrc; cp /dotfiles/.gitconfig /root/.gitconfig; cd /dotfiles && bash sync.sh </dev/null'
+check_command_fails "sync.sh rejects shell credentials" \
+  docker run --rm "$IMAGE" bash -c 'printf "export TEST_API_KEY=value\\n" > /root/.zshrc; cd /dotfiles; printf "sync\\n" | script -e -q -c "bash sync.sh" /dev/null'
 
 rm -rf "$TMPDIR_CHECK"
 docker rm -f "$CONTAINER" 2>/dev/null || true
