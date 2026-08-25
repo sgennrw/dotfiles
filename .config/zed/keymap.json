@@ -132,13 +132,14 @@
 
       // Open recent project
       "space f p": "projects::OpenRecent",
-      // Search word under cursor
-      "space s w": "pane::DeploySearch",
 
       // Chat with AI
       "space a c": "agent::ToggleFocus",
       // Go to file with `gf`
       "g f": "editor::OpenExcerpts",
+
+      // Show AutoComplete
+      "space t c": "editor::ShowCompletions",
     },
   },
   {
@@ -159,14 +160,15 @@
 
       // + Buffers
       // File finder
-      "space space": [
-        "task::Spawn",
-        { "task_name": "file_finder", "reveal_target": "center" },
-      ],
-      "space g": [
-        "task::Spawn",
-        { "task_name": "live_grep", "reveal_target": "center" },
-      ],
+      // "space space": [
+      //   "task::Spawn",
+      //   { "task_name": "file_finder", "reveal_target": "center" },
+      // ],
+      // "space g": [
+      //   "task::Spawn",
+      //   { "task_name": "live_grep", "reveal_target": "center" },
+      // ],
+      "space space": "file_finder::Toggle",
       // Project search
       "space /": "pane::DeploySearch",
       // TODO: Open other files
@@ -179,14 +181,15 @@
     "context": "EmptyPane || SharedScreen",
     "bindings": {
       // Open file finder
-      "space space": [
-        "task::Spawn",
-        { "task_name": "file_finder", "reveal_target": "center" },
-      ],
-      "space g": [
-        "task::Spawn",
-        { "task_name": "live_grep", "reveal_target": "center" },
-      ],
+      // "space space": [
+      //   "task::Spawn",
+      //   { "task_name": "file_finder", "reveal_target": "center" },
+      // ],
+      // "space g": [
+      //   "task::Spawn",
+      //   { "task_name": "live_grep", "reveal_target": "center" },
+      // ],
+      "space space": "file_finder::Toggle",
       // Open recent project
       "space f p": "projects::OpenRecent",
       "\\": "workspace::ToggleRightDock",
