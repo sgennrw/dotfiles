@@ -28,8 +28,6 @@ zsh/
 scripts/
   brew.sh                   # homebrew + all packages
   shell.sh                  # ohmyzsh, plugins, file copies
-  neovim.sh                 # amix/vimrc + nvim init bridge
-  docker.sh                 # ~/.docker/config.json for colima
   ssh.sh                    # generate per-identity ed25519 SSH keys + ~/.ssh/config
   agents.sh                 # restore skills from repo; clone superpowers
 agents/
@@ -48,7 +46,7 @@ iterm2/
   - `~/Documents/labs/` → `~/.config/labs.gitconfig` (sgennrw / nt.salisa@gmail.com)
   - `~/Documents/workspaces/` → `~/.config/workspaces.gitconfig` (company account, TBD)
   - `useconfigonly = true` blocks commits outside these dirs without explicit identity
-- `neovim.sh` idempotency guard checks for `runtimepath` (not `vim_runtime`) — matches actual written content
+- `init.lua` is the canonical Neovim entrypoint; no generated `init.vim` bridge is installed
 - `test.sh` uses `docker cp /root` (not `/root/.`) to preserve `.config/` path structure when extracting for inspection
 - SSH keys: `~/.ssh/id_ed25519_labs` and `~/.ssh/id_ed25519_workspaces`; `~/.ssh/config` uses `Host github.com-labs` / `Host github.com-workspaces`
 - `superpowers` is a git repo at `~/.agents/skills/superpowers` — NOT copied by sync; updated via `git pull`
@@ -57,7 +55,7 @@ iterm2/
 ## Tools Installed (brew.sh)
 
 Casks: iterm2, raycast, obsidian, zed, karabiner-elements, dbeaver-community, colemak-dh
-Formulae: neovim, node, nvm, bat, git-delta, fzf, lazygit
+Formulae: neovim, node, nvm, bat, git-delta, fzf, lazygit, pyenv, pnpm, bun, n, rust
 Taps: jesseduffield/lazydocker/lazydocker
 Also: docker, docker-compose, colima
 
@@ -91,7 +89,7 @@ Syncs: `~/.zshrc`, `~/.gitconfig`, `~/.config/{karabiner,lazygit,nvim,zed}`, `~/
 ./test.sh
 ```
 
-Checks: .zshrc copied, lb/ws aliases present, .gitconfig copied, nvim init.vim has runtimepath bridge, docker config.json has cliPluginsExtraDirs.
+Checks: .zshrc copied, lb/ws aliases present, and .gitconfig copied.
 
 ## Manual Steps (after install.sh)
 

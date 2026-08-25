@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source "$DOTFILES_DIR/scripts/lib.sh"
+
 printf "\n\033[1m=== AGENTS: SKILLS ===\033[0m\n"
 
 mkdir -p "$HOME/.agents/skills"
@@ -9,7 +11,9 @@ if [ -d "$DOTFILES_DIR/agents/skills" ]; then
   for skill_dir in "$DOTFILES_DIR/agents/skills"/*/; do
     [ -d "$skill_dir" ] || continue
     skill_name="$(basename "$skill_dir")"
-    cp -rf "${skill_dir%/}" "$HOME/.agents/skills/"
+    sync_directory \
+      "${skill_dir%/}" \
+      "$HOME/.agents/skills/$skill_name"
     printf "  [install] ~/.agents/skills/%s\n" "$skill_name"
   done
 fi

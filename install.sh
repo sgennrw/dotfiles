@@ -5,8 +5,6 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 source "$DOTFILES_DIR/scripts/brew.sh"
 source "$DOTFILES_DIR/scripts/shell.sh"
-source "$DOTFILES_DIR/scripts/neovim.sh"
-source "$DOTFILES_DIR/scripts/docker.sh"
 source "$DOTFILES_DIR/scripts/ssh.sh"
 source "$DOTFILES_DIR/scripts/agents.sh"
 

@@ -6,7 +6,7 @@ The setup that works for me.
 
 - [Homebrew](https://brew.sh)
 - [iTerm2](https://iterm2.com)
-- [Neovim](https://neovim.io) with [amix/vimrc](https://github.com/amix/vimrc)
+- [Neovim](https://neovim.io) with the checked-in Lua configuration
 - [bat](https://github.com/sharkdp/bat) — cat with wings
 - [delta](https://dandavison.github.io/delta/) — git diff
 - [Raycast](https://www.raycast.com)

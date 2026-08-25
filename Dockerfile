@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     zsh \
     git \
     curl \
-    python3 \
+    rsync \
     && rm -rf /var/lib/apt/lists/*
 
 # Stub: brew — exits 1 for list (not installed), 0 for everything else
@@ -41,6 +41,6 @@ RUN chmod +x /usr/local/bin/git
 COPY . /dotfiles
 WORKDIR /dotfiles
 
-RUN chmod +x install.sh scripts/brew.sh scripts/shell.sh scripts/neovim.sh scripts/docker.sh
+RUN chmod +x install.sh scripts/brew.sh scripts/shell.sh
 
 CMD ["bash", "install.sh"]

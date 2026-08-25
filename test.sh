@@ -3,6 +3,16 @@ set -e
 
 IMAGE="dotfiles-smoke-test"
 CONTAINER="dotfiles-smoke-test-run"
+TMPDIR_CHECK=""
+
+cleanup() {
+  if [ -n "$TMPDIR_CHECK" ]; then
+    rm -rf "$TMPDIR_CHECK"
+  fi
+  docker rm -f "$CONTAINER" >/dev/null 2>&1 || true
+}
+
+trap cleanup EXIT
 
 printf "\033[1m=== DOTFILES SMOKE TEST ===\033[0m\n\n"
 
@@ -71,19 +81,19 @@ check_file     ".zshrc"                ".zshrc copied to ~/"
 check_contains ".zshrc"    "alias lb"  ".zshrc contains lb alias"
 check_contains ".zshrc"    "alias ws"  ".zshrc contains ws alias"
 check_file     ".gitconfig"            ".gitconfig copied to ~/"
-check_file     ".config/nvim/init.vim" "nvim init.vim written"
-check_contains ".config/nvim/init.vim" "runtimepath" \
-  "init.vim contains vim_runtime bridge"
-check_file     ".docker/config.json"   "docker config.json written"
-check_contains ".docker/config.json"   "cliPluginsExtraDirs" \
-  "docker config.json has cliPluginsExtraDirs"
+check_file     ".config/nvim/init.lua" "nvim init.lua copied"
 check_command_fails "sync.sh rejects non-interactive execution" \
   docker run --rm "$IMAGE" bash -c 'mkdir -p /root/.agents/skills/example; cp /dotfiles/zsh/.zshrc /root/.zshrc; cp /dotfiles/.gitconfig /root/.gitconfig; cd /dotfiles && bash sync.sh </dev/null'
 check_command_fails "sync.sh rejects shell credentials" \
   docker run --rm "$IMAGE" bash -c 'printf "export TEST_API_KEY=value\\n" > /root/.zshrc; cd /dotfiles; printf "sync\\n" | script -e -q -c "bash sync.sh" /dev/null'
 
-rm -rf "$TMPDIR_CHECK"
-docker rm -f "$CONTAINER" 2>/dev/null || true
+docker run --rm "$IMAGE" bash -c 'set -e; bash /dotfiles/scripts/ssh.sh >/dev/null; bash /dotfiles/scripts/ssh.sh >/dev/null; test "$(grep -c "^Host github.com-labs$" /root/.ssh/config)" -eq 1; test "$(grep -c "^Host github.com-workspaces$" /root/.ssh/config)" -eq 1'
+
+docker run --rm "$IMAGE" bash -c 'set -e; mkdir -p /root/.config/nvim; printf stale > /dotfiles/.config/nvim/stale.txt; printf current > /root/.config/nvim/current.txt; cp /dotfiles/zsh/.zshrc /root/.zshrc; cp /dotfiles/.gitconfig /root/.gitconfig; cd /dotfiles; printf "sync\\n" | script -e -q -c "bash sync.sh" /dev/null >/dev/null; test ! -e /dotfiles/.config/nvim/stale.txt; test -f /dotfiles/.config/nvim/current.txt'
+
+docker run --rm "$IMAGE" bash -c 'set -e; mkdir -p /dotfiles/.config/future-tool; printf configured > /dotfiles/.config/future-tool/settings; DOTFILES_DIR=/dotfiles bash /dotfiles/scripts/shell.sh >/dev/null; test -f /root/.config/future-tool/settings'
+
+docker run --rm "$IMAGE" bash -c 'set -e; mkdir -p /root/.agents/skills/local-skill; printf keep > /root/.agents/skills/local-skill/marker; bash /dotfiles/install.sh >/dev/null; test -f /root/.agents/skills/local-skill/marker'
 
 printf "\n"
 if [ "$FAILURES" -eq 0 ]; then

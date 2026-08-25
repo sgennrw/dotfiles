@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source "$DOTFILES_DIR/scripts/lib.sh"
+
 printf "\n\033[1m=== OH-MY-ZSH ===\033[0m\n"
 
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
@@ -39,16 +41,8 @@ printf "Copied .gitconfig -> ~/.gitconfig\n"
 
 printf "\n\033[1m=== DOTFILES: CONFIG ===\033[0m\n"
 mkdir -p "$HOME/.config"
-for config_dir in karabiner lazygit nvim zed; do
-  if [ -d "$DOTFILES_DIR/.config/$config_dir" ]; then
-    cp -rf "$DOTFILES_DIR/.config/$config_dir" "$HOME/.config/"
-    printf "  [install] ~/.config/%s\n" "$config_dir"
-  fi
-done
-cp -f "$DOTFILES_DIR/.config/labs.gitconfig"       "$HOME/.config/"
-cp -f "$DOTFILES_DIR/.config/workspaces.gitconfig" "$HOME/.config/"
-printf "  [install] ~/.config/labs.gitconfig\n"
-printf "  [install] ~/.config/workspaces.gitconfig\n"
+sync_config_entries "$DOTFILES_DIR/.config" "$HOME/.config"
+printf "  [install] ~/.config (all repository entries)\n"
 
 printf "\n\033[1m=== MANUAL: ITERM2 ===\033[0m\n"
 printf "See README.md for iTerm2 profile import and preferences setup.\n"

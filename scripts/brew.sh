@@ -24,11 +24,15 @@ CASKS=(
 FORMULAE=(
   neovim
   node
-  nvm
   bat
   git-delta
   fzf
   lazygit
+  pyenv
+  pnpm
+  bun
+  n
+  rust
 )
 
 printf "Installing cask apps...\n"

@@ -43,7 +43,9 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 [ -s "$HOME/.local/bin/env" ] && source "$HOME/.local/bin/env"
 
 # --- fzf ---
-source <(fzf --zsh)
+if command -v fzf >/dev/null 2>&1; then
+  source <(fzf --zsh)
+fi
 export FZF_CTRL_T_OPTS="
   --walker-skip .git,node_modules,target
   --preview 'bat -n --color=always {}'

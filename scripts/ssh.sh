@@ -2,30 +2,36 @@
 
 printf "\n\033[1m=== SSH KEYS ===\033[0m\n"
 
-# --- labs ---
-if [ ! -f "$HOME/.ssh/id_ed25519_labs" ]; then
-  printf "Generating labs SSH key...\n"
-  ssh-keygen -t ed25519 -C "sgennrw (labs)" -f "$HOME/.ssh/id_ed25519_labs" -N ""
-else
-  printf "  [skip] ~/.ssh/id_ed25519_labs already exists\n"
-fi
-
-# --- workspaces ---
-if [ ! -f "$HOME/.ssh/id_ed25519_workspaces" ]; then
-  printf "Generating workspaces SSH key...\n"
-  ssh-keygen -t ed25519 -C "workspaces" -f "$HOME/.ssh/id_ed25519_workspaces" -N ""
-else
-  printf "  [skip] ~/.ssh/id_ed25519_workspaces already exists\n"
-fi
-
-# --- ~/.ssh/config ---
-printf "\n\033[1m=== SSH CONFIG ===\033[0m\n"
 mkdir -p "$HOME/.ssh"
 chmod 700 "$HOME/.ssh"
 
+ensure_key() {
+  local key_path="$1"
+  local comment="$2"
+
+  if [ ! -f "$key_path" ]; then
+    printf "Generating %s SSH key...\n" "$comment"
+    ssh-keygen -t ed25519 -C "$comment" -f "$key_path" -N ""
+  elif [ ! -f "$key_path.pub" ]; then
+    printf "Recreating missing %s public key...\n" "$comment"
+    ssh-keygen -y -f "$key_path" > "$key_path.pub"
+    chmod 644 "$key_path.pub"
+  else
+    printf "  [skip] %s key already exists\n" "$comment"
+  fi
+}
+
+# --- labs ---
+ensure_key "$HOME/.ssh/id_ed25519_labs" "sgennrw (labs)"
+
+# --- workspaces ---
+ensure_key "$HOME/.ssh/id_ed25519_workspaces" "workspaces"
+
+# --- ~/.ssh/config ---
+printf "\n\033[1m=== SSH CONFIG ===\033[0m\n"
 SSH_CONFIG="$HOME/.ssh/config"
 
-if ! grep -q "id_ed25519_labs" "$SSH_CONFIG" 2>/dev/null; then
+if ! grep -q '^Host github.com-labs$' "$SSH_CONFIG" 2>/dev/null; then
   cat >> "$SSH_CONFIG" <<'EOF'
 
 # labs (sgennrw)
@@ -40,7 +46,7 @@ else
   printf "  [skip] github.com-labs already in ~/.ssh/config\n"
 fi
 
-if ! grep -q "id_ed25519_workspaces" "$SSH_CONFIG" 2>/dev/null; then
+if ! grep -q '^Host github.com-workspaces$' "$SSH_CONFIG" 2>/dev/null; then
   cat >> "$SSH_CONFIG" <<'EOF'
 
 # workspaces (company account)

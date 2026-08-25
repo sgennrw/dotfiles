@@ -2,6 +2,7 @@
 set -e
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$DOTFILES_DIR/scripts/lib.sh"
 
 printf "\033[1m=== SYNCING DOTFILES ===\033[0m\n\n"
 
@@ -21,6 +22,13 @@ if grep -Eq '^[[:space:]]*(export[[:space:]]+)?[[:upper:]_][[:upper:][:digit:]_]
   exit 1
 fi
 
+for required_file in "$HOME/.zshrc" "$HOME/.gitconfig"; do
+  if [ ! -f "$required_file" ]; then
+    printf "[ERROR] required source file is missing: %s\n" "$required_file" >&2
+    exit 1
+  fi
+done
+
 # --- .zshrc ---
 cp -f "$HOME/.zshrc" "$DOTFILES_DIR/zsh/.zshrc"
 printf "  [sync] ~/.zshrc\n"
@@ -30,14 +38,8 @@ cp -f "$HOME/.gitconfig" "$DOTFILES_DIR/.gitconfig"
 printf "  [sync] ~/.gitconfig\n"
 
 # --- .config ---
-for config_dir in karabiner lazygit nvim zed; do
-  if [ -d "$HOME/.config/$config_dir" ]; then
-    cp -rf "$HOME/.config/$config_dir" "$DOTFILES_DIR/.config/"
-    printf "  [sync] ~/.config/%s\n" "$config_dir"
-  else
-    printf "  [skip] ~/.config/%s (not found)\n" "$config_dir"
-  fi
-done
+sync_config_entries "$HOME/.config" "$DOTFILES_DIR/.config"
+printf "  [sync] ~/.config (all entries)\n"
 
 # --- agents skills (skip git repos — they self-update via git pull) ---
 printf "\n\033[1m=== SYNCING AGENTS ===\033[0m\n"
@@ -48,14 +50,26 @@ if [ -f "$HOME/.agents/.skill-lock.json" ]; then
 fi
 
 for skill_dir in "$HOME/.agents/skills"/*/; do
+  [ -d "$skill_dir" ] || continue
   skill_name="$(basename "$skill_dir")"
   # skip git repos — they are managed by git pull, not by this sync
   if [ -d "$skill_dir/.git" ]; then
     printf "  [skip] ~/.agents/skills/%s (git repo)\n" "$skill_name"
     continue
   fi
-  cp -rf "${skill_dir%/}" "$DOTFILES_DIR/agents/skills/"
+  sync_directory \
+    "${skill_dir%/}" \
+    "$DOTFILES_DIR/agents/skills/$skill_name"
   printf "  [sync] ~/.agents/skills/%s\n" "$skill_name"
+done
+
+for repo_skill_dir in "$DOTFILES_DIR/agents/skills"/*/; do
+  [ -d "$repo_skill_dir" ] || continue
+  skill_name="$(basename "$repo_skill_dir")"
+  if [ ! -d "$HOME/.agents/skills/$skill_name" ]; then
+    rm -rf "$repo_skill_dir"
+    printf "  [remove] agents/skills/%s (not installed)\n" "$skill_name"
+  fi
 done
 
 # --- show what changed ---
