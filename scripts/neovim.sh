@@ -13,7 +13,7 @@ fi
 printf "Writing ~/.config/nvim/init.vim...\n"
 mkdir -p "$HOME/.config/nvim"
 
-if ! grep -q "vim_runtime" "$HOME/.config/nvim/init.vim" 2>/dev/null; then
+if ! grep -q "runtimepath" "$HOME/.config/nvim/init.vim" 2>/dev/null; then
   cat >> "$HOME/.config/nvim/init.vim" <<'EOF'
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
