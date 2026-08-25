@@ -27,8 +27,24 @@ cd ~/dotfiles
 bash install.sh
 ```
 
-The script automates everything it can. After it finishes, follow the
-printed `[MANUAL]` instructions for iTerm2 profile import and preferences.
+The script automates everything it can. After it finishes, complete the iTerm2 steps below.
+
+## iTerm2 Manual Setup
+
+**Profile Import:**
+1. Open iTerm2
+2. Go to `Preferences > Profiles`
+3. On the sidebar, click `Other Actions` > `Import JSON Profiles`
+4. Select `iterm2/iterm2-profile.json` from this repo
+5. Remove the old Default profile
+
+**Preferences:**
+- `Preferences > Appearance > General`
+  - Theme: `Minimal` | Tab bar: `Top` | Status bar: `Bottom`
+- `Preferences > Appearance > Tabs`
+  - `[x]` Show tab bar even when there is only one tab
+- `Preferences > Keys > Hotkey`
+  - `[x]` Show/hide all windows with system-wide hotkey — `⌥Space`
 
 ## Testing
 
