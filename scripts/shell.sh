@@ -39,13 +39,16 @@ printf "Copied .gitconfig -> ~/.gitconfig\n"
 
 printf "\n\033[1m=== DOTFILES: CONFIG ===\033[0m\n"
 mkdir -p "$HOME/.config"
-cp -rf "$DOTFILES_DIR/.config/karabiner"           "$HOME/.config/"
-cp -rf "$DOTFILES_DIR/.config/lazygit"             "$HOME/.config/"
-cp -rf "$DOTFILES_DIR/.config/nvim"                "$HOME/.config/"
-cp -rf "$DOTFILES_DIR/.config/zed"                 "$HOME/.config/"
-cp -f  "$DOTFILES_DIR/.config/labs.gitconfig"      "$HOME/.config/"
-cp -f  "$DOTFILES_DIR/.config/workspaces.gitconfig" "$HOME/.config/"
-printf "Copied .config/* -> ~/.config/\n"
+for config_dir in karabiner lazygit nvim zed; do
+  if [ -d "$DOTFILES_DIR/.config/$config_dir" ]; then
+    cp -rf "$DOTFILES_DIR/.config/$config_dir" "$HOME/.config/"
+    printf "  [install] ~/.config/%s\n" "$config_dir"
+  fi
+done
+cp -f "$DOTFILES_DIR/.config/labs.gitconfig"       "$HOME/.config/"
+cp -f "$DOTFILES_DIR/.config/workspaces.gitconfig" "$HOME/.config/"
+printf "  [install] ~/.config/labs.gitconfig\n"
+printf "  [install] ~/.config/workspaces.gitconfig\n"
 
 printf "\n\033[1m=== MANUAL: ITERM2 ===\033[0m\n"
 printf "See README.md for iTerm2 profile import and preferences setup.\n"

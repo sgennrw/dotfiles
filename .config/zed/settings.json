@@ -7,6 +7,100 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "ensure_final_newline_on_save": false,
+  "remove_trailing_whitespace_on_save": false,
+  "format_on_save": "on",
+  "cli_default_open_behavior": "new_window",
+  "outline_panel": {
+    "dock": "left",
+  },
+  "collaboration_panel": {
+    "dock": "left",
+  },
+  "agent": {
+    "default_profile": "write",
+    "default_model": {
+      "provider": "ollama",
+      "model": "qwen3:8b",
+      "enable_thinking": true,
+    },
+    "dock": "left",
+    "favorite_models": [],
+    "model_parameters": [],
+  },
+  "git_panel": {
+    "dock": "left",
+  },
+  "agent_servers": {
+    "claude-acp": {
+      "default_config_options": {
+        "mode": "default",
+        "model": "sonnet",
+      },
+      "type": "registry",
+    },
+    "opencode": {
+      "default_config_options": {
+        "model": "arv-gateway/claude-sonnet-4-6",
+      },
+      "type": "registry",
+    },
+    "gemini": {
+      "default_mode": "autoEdit",
+      "default_model": "auto",
+      "type": "registry",
+    },
+    "codex-acp": {
+      "default_config_options": {
+        "model": "gpt-5.6-terra",
+        "mode": "read-only",
+      },
+      "type": "registry",
+    },
+  },
+  "lsp": {
+    "vtsls": {
+      "settings": {
+        "typescript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always",
+          },
+        },
+        "javascript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always",
+          },
+        },
+      },
+      "enable_lsp_tasks": true,
+    },
+    "oxlint": {
+      "initialization_options": {
+        "settings": {
+          "configPath": null,
+          "run": "onType",
+          "disableNestedConfig": false,
+          "fixKind": "safe_fix",
+          "unusedDisableDirectives": "deny",
+        },
+      },
+    },
+    "oxfmt": {
+      "initialization_options": {
+        "settings": {
+          "fmt.configPath": null,
+          "run": "onSave",
+        },
+      },
+    },
+    "rust-analyzer": {
+      "initialization_options": {
+        "check": {
+          "command": "clippy",
+        },
+      },
+    },
+  },
   "ui_font_family": ".ZedSans",
   "buffer_font_family": ".ZedMono",
   "use_system_path_prompts": false,
@@ -28,6 +122,7 @@
   },
   "vim_mode": true,
   "relative_line_numbers": "enabled",
+  // "redact_private_values": true,
   "icon_theme": "Material Icon Theme",
   "base_keymap": "VSCode",
   "ui_font_size": 16,
@@ -35,7 +130,7 @@
   "theme": {
     "mode": "dark",
     "light": "One Light",
-    "dark": "Github Dark",
+    "dark": "GitHub Dark",
   },
   "code_actions_on_format": {
     "source.organizeImports": true,
@@ -44,10 +139,23 @@
   },
   "languages": {
     "Python": {
-      "format_on_save": "on",
+      "format_on_save": "off",
     },
     "TypeScript": {
       "format_on_save": "on",
+    },
+    "TSX": {
+      "format_on_save": "on",
+      "prettier": {
+        "allowed": false,
+      },
+      "formatter": [
+        {
+          "language_server": {
+            "name": "oxfmt",
+          },
+        },
+      ],
     },
   },
 }

@@ -1,4 +1,3 @@
-
 // Zed keymap
 //
 // For information on binding keys, see the Zed
@@ -133,6 +132,8 @@
 
       // Open recent project
       "space f p": "projects::OpenRecent",
+      // Search word under cursor
+      "space s w": "pane::DeploySearch",
 
       // Chat with AI
       "space a c": "agent::ToggleFocus",
@@ -161,15 +162,14 @@
 
       // + Buffers
       // File finder
-      // "space space": [
-      //   "task::Spawn",
-      //   { "task_name": "file_finder", "reveal_target": "center" },
-      // ],
-      // "space g": [
-      //   "task::Spawn",
-      //   { "task_name": "live_grep", "reveal_target": "center" },
-      // ],
-      "space space": "file_finder::Toggle",
+      "space space": [
+        "task::Spawn",
+        { "task_name": "file_finder", "reveal_target": "center" },
+      ],
+      "space g": [
+        "task::Spawn",
+        { "task_name": "live_grep", "reveal_target": "center" },
+      ],
       // Project search
       "space /": "pane::DeploySearch",
       // TODO: Open other files
@@ -182,15 +182,14 @@
     "context": "EmptyPane || SharedScreen",
     "bindings": {
       // Open file finder
-      // "space space": [
-      //   "task::Spawn",
-      //   { "task_name": "file_finder", "reveal_target": "center" },
-      // ],
-      // "space g": [
-      //   "task::Spawn",
-      //   { "task_name": "live_grep", "reveal_target": "center" },
-      // ],
-      "space space": "file_finder::Toggle",
+      "space space": [
+        "task::Spawn",
+        { "task_name": "file_finder", "reveal_target": "center" },
+      ],
+      "space g": [
+        "task::Spawn",
+        { "task_name": "live_grep", "reveal_target": "center" },
+      ],
       // Open recent project
       "space f p": "projects::OpenRecent",
       "\\": "workspace::ToggleRightDock",
