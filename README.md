@@ -61,3 +61,20 @@ Superpowers is a git repo and is not touched by `sync.sh`. Update it manually:
 ```zsh
 git -C ~/.agents/skills/superpowers pull
 ```
+
+## Sync Workflow
+
+Run `./sync.sh` from an interactive terminal. Select one or more groups by number:
+
+- `1` — `~/.zshrc`
+- `2` — `~/.gitconfig`
+- `3` — all `~/.config` entries
+- `4` — `~/.agents/.skill-lock.json` and non-git skills
+- `a` — all groups
+
+For example, enter `1 3` to sync only the shell config and .config entries. Review the resulting changes with `git diff` before deciding whether to commit.
+
+```zsh
+git diff
+git add -A && git commit -m "chore: sync dotfiles"
+```

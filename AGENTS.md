@@ -76,12 +76,12 @@ Also: docker, docker-compose, colima
 ## Sync Workflow
 
 ```zsh
-./sync.sh          # copies live files into repo, shows git diff
+./sync.sh          # select one or more groups, then review the diff
 git diff           # review
 git add -A && git commit -m "chore: sync dotfiles"
 ```
 
-Syncs: `~/.zshrc`, `~/.gitconfig`, `~/.config/{karabiner,lazygit,nvim,zed}`, `~/.agents/.skill-lock.json`, all non-git skill dirs.
+Selections: `1` `~/.zshrc`, `2` `~/.gitconfig`, `3` all `~/.config` entries, `4` .skill-lock.json and non-git skills, or `a` for all.
 
 ## Smoke-Test
 
