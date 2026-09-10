@@ -38,6 +38,18 @@ exec /usr/bin/git "$@"
 EOF
 RUN chmod +x /usr/local/bin/git
 
+# Stub: Skills CLI restore records that it consumed the copied lock file.
+RUN cat > /usr/local/bin/npx <<'EOF'
+#!/usr/bin/env bash
+if [ "$1" = "--yes" ] && [ "$2" = "skills" ] && [ "$3" = "experimental_install" ]; then
+  test -f /root/.agents/.skill-lock.json
+  touch /root/.agents/.skills-lock-restored
+  exit 0
+fi
+exit 1
+EOF
+RUN chmod +x /usr/local/bin/npx
+
 COPY . /dotfiles
 WORKDIR /dotfiles
 

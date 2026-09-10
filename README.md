@@ -69,7 +69,7 @@ Run `./sync.sh` from an interactive terminal. Select one or more groups by numbe
 - `1` — `~/.zshrc`
 - `2` — `~/.gitconfig`
 - `3` — all `~/.config` entries
-- `4` — `~/.agents/.skill-lock.json` and non-git skills
+- `4` — `~/.agents/.skill-lock.json` and locally managed skills. Remote skills in the lock are restored by the Skills CLI; Superpowers remains a separately managed git clone.
 - `a` — all groups
 
 For example, enter `1 3` to sync only the shell config and .config entries. Review the resulting changes with `git diff` before deciding whether to commit.

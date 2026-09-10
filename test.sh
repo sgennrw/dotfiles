@@ -82,6 +82,7 @@ check_contains ".zshrc"    "alias lb"  ".zshrc contains lb alias"
 check_contains ".zshrc"    "alias ws"  ".zshrc contains ws alias"
 check_file     ".gitconfig"            ".gitconfig copied to ~/"
 check_file     ".config/nvim/init.lua" "nvim init.lua copied"
+check_file     ".agents/.skills-lock-restored" "lock-managed skills restored"
 check_command_fails "sync.sh rejects non-interactive execution" \
   docker run --rm "$IMAGE" bash -c 'mkdir -p /root/.agents/skills/example; cp /dotfiles/zsh/.zshrc /root/.zshrc; cp /dotfiles/.gitconfig /root/.gitconfig; cd /dotfiles && bash sync.sh </dev/null'
 check_command_fails "sync.sh rejects shell credentials" \

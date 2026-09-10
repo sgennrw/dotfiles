@@ -39,12 +39,6 @@
       },
       "type": "registry",
     },
-    "opencode": {
-      "default_config_options": {
-        "model": "arv-gateway/claude-sonnet-4-6",
-      },
-      "type": "registry",
-    },
     "gemini": {
       "default_mode": "autoEdit",
       "default_model": "auto",

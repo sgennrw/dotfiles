@@ -32,7 +32,7 @@ scripts/
   agents.sh                 # restore skills from repo; clone superpowers
 agents/
   .skill-lock.json          # tracks installed skills
-  skills/                   # non-git skills (find-skills, tdd, etc.) — auto-synced
+  skills/                   # locally managed skills; lock-managed remote skills are restored by the Skills CLI
 iterm2/
   iterm2-profile.json       # imported manually (see README)
 ```
@@ -50,7 +50,7 @@ iterm2/
 - `test.sh` uses `docker cp /root` (not `/root/.`) to preserve `.config/` path structure when extracting for inspection
 - SSH keys: `~/.ssh/id_ed25519_labs` and `~/.ssh/id_ed25519_workspaces`; `~/.ssh/config` uses `Host github.com-labs` / `Host github.com-workspaces`
 - `superpowers` is a git repo at `~/.agents/skills/superpowers` — NOT copied by sync; updated via `git pull`
-- All other skills in `~/.agents/skills/` are plain directories — synced by `sync.sh` and restored by `agents.sh`; no names hardcoded (loop detects git repos by presence of `.git/`)
+- Skills recorded in `agents/.skill-lock.json` are restored by `npx skills experimental_install`; other plain skill directories are synced by `sync.sh` and restored by `agents.sh`. Git repos are detected by `.git/` and skipped by sync.
 
 ## Tools Installed (brew.sh)
 

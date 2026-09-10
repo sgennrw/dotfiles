@@ -145,37 +145,48 @@ if [ "$sync_config" -eq 1 ]; then
   printf "  [sync] ~/.config (all entries)\n"
 fi
 
-# --- agents skills (skip git repos — they self-update via git pull) ---
+# --- agent skills ---
 if [ "$sync_agents" -eq 1 ]; then
   printf "\n\033[1m=== SYNCING AGENTS ===\033[0m\n"
 
-if [ -f "$HOME/.agents/.skill-lock.json" ]; then
-  cp -f "$HOME/.agents/.skill-lock.json" "$DOTFILES_DIR/agents/"
-  printf "  [sync] ~/.agents/.skill-lock.json\n"
-fi
-
-for skill_dir in "$HOME/.agents/skills"/*/; do
-  [ -d "$skill_dir" ] || continue
-  skill_name="$(basename "$skill_dir")"
-  # skip git repos — they are managed by git pull, not by this sync
-  if [ -d "$skill_dir/.git" ]; then
-    printf "  [skip] ~/.agents/skills/%s (git repo)\n" "$skill_name"
-    continue
+  if [ -f "$HOME/.agents/.skill-lock.json" ]; then
+    cp -f "$HOME/.agents/.skill-lock.json" "$DOTFILES_DIR/agents/"
+    printf "  [sync] ~/.agents/.skill-lock.json\n"
   fi
-  sync_directory \
-    "${skill_dir%/}" \
-    "$DOTFILES_DIR/agents/skills/$skill_name"
-  printf "  [sync] ~/.agents/skills/%s\n" "$skill_name"
-done
 
-for repo_skill_dir in "$DOTFILES_DIR/agents/skills"/*/; do
-  [ -d "$repo_skill_dir" ] || continue
-  skill_name="$(basename "$repo_skill_dir")"
-  if [ ! -d "$HOME/.agents/skills/$skill_name" ]; then
-    rm -rf "$repo_skill_dir"
-    printf "  [remove] agents/skills/%s (not installed)\n" "$skill_name"
-  fi
-done
+  is_lock_managed_skill() {
+    grep -Fq "\"$1\":" "$DOTFILES_DIR/agents/.skill-lock.json"
+  }
+
+  for skill_dir in "$HOME/.agents/skills"/*/; do
+    [ -d "$skill_dir" ] || continue
+    skill_name="$(basename "$skill_dir")"
+    # Git repos self-update; lock-managed skills are restored by the CLI.
+    if [ -d "$skill_dir/.git" ]; then
+      printf "  [skip] ~/.agents/skills/%s (git repo)\n" "$skill_name"
+      continue
+    fi
+    if is_lock_managed_skill "$skill_name"; then
+      printf "  [skip] ~/.agents/skills/%s (lock-managed)\n" "$skill_name"
+      continue
+    fi
+    sync_directory \
+      "${skill_dir%/}" \
+      "$DOTFILES_DIR/agents/skills/$skill_name"
+    printf "  [sync] ~/.agents/skills/%s (local)\n" "$skill_name"
+  done
+
+  for repo_skill_dir in "$DOTFILES_DIR/agents/skills"/*/; do
+    [ -d "$repo_skill_dir" ] || continue
+    skill_name="$(basename "$repo_skill_dir")"
+    if is_lock_managed_skill "$skill_name"; then
+      continue
+    fi
+    if [ ! -d "$HOME/.agents/skills/$skill_name" ]; then
+      rm -rf "$repo_skill_dir"
+      printf "  [remove] agents/skills/%s (not installed)\n" "$skill_name"
+    fi
+  done
 fi
 
 # --- show what changed ---
