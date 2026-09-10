@@ -1,0 +1,13 @@
+.git
+**/.git
+.config/zed/prompts
+.config/karabiner/automatic_backups
+.config/nvim/kickstart.nvim
+.DS_Store
+**/.DS_Store
+*.bak
+*.backup
+*.swp
+.worktrees
+.superpowers
+.agents/skills

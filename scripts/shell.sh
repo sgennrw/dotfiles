@@ -2,11 +2,16 @@
 
 source "$DOTFILES_DIR/scripts/lib.sh"
 
+assert_safe_path "$HOME/.zshrc"
+assert_safe_path "$HOME/.gitconfig"
+
 printf "\n\033[1m=== OH-MY-ZSH ===\033[0m\n"
 
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   printf "Installing ohmyzsh...\n"
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  ohmyzsh_installer="$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" || return 1
+  KEEP_ZSHRC=yes sh -c "$ohmyzsh_installer" "" --unattended
+  unset ohmyzsh_installer
 else
   printf "ohmyzsh already installed, skipping.\n"
 fi
@@ -32,17 +37,17 @@ else
 fi
 
 printf "\n\033[1m=== DOTFILES: ZSHRC ===\033[0m\n"
-cp -f "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
+copy_managed_file "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc" install
 printf "Copied zsh/.zshrc -> ~/.zshrc\n"
 
 printf "\n\033[1m=== DOTFILES: GITCONFIG ===\033[0m\n"
-cp -f "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
+copy_managed_file "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig" install
 printf "Copied .gitconfig -> ~/.gitconfig\n"
 
 printf "\n\033[1m=== DOTFILES: CONFIG ===\033[0m\n"
 mkdir -p "$HOME/.config"
-sync_config_entries "$DOTFILES_DIR/.config" "$HOME/.config"
-printf "  [install] ~/.config (all repository entries)\n"
+sync_config_entries "$DOTFILES_DIR/.config" "$HOME/.config" install
+printf "  [install] ~/.config (except Git-ignored files)\n"
 
 printf "\n\033[1m=== MANUAL: ITERM2 ===\033[0m\n"
 printf "See README.md for iTerm2 profile import and preferences setup.\n"

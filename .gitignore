@@ -2,3 +2,7 @@
 *.bak
 *.backup
 *.swp
+.config/zed/prompts/
+.config/karabiner/automatic_backups/
+.config/nvim/kickstart.nvim/
+.agents/skills/

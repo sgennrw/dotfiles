@@ -1,3 +1,13 @@
+# --- Homebrew ---
+# Login shells do not always inherit Homebrew's PATH (notably on Apple Silicon).
+if command -v brew >/dev/null 2>&1; then
+  eval "$(brew shellenv)"
+elif [ -x /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -x /usr/local/bin/brew ]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
+
 # --- oh-my-zsh ---
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="avit"
@@ -10,11 +20,6 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-
-# --- node: nvm ---
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # --- node: n ---
 export N_PREFIX="$HOME/.n"
